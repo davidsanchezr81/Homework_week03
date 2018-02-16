@@ -19,4 +19,10 @@ class Customers
     customer = SqlRunner.run(sql, values)[0] # o se puede poner .first. Esto es para poder ver al menos el primer elemento del array
     @id = customer['id'].to_i
   end
+
+  def Customers.delete_all()
+    sql = "DELETE FROM customers"
+    values = []
+    SqlRunner.run(sql, values)
+  end
 end
