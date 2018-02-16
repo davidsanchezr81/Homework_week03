@@ -20,10 +20,34 @@ class Films
     @id = film['id'].to_i
   end
 
-  def Films.delete_all()
-    sql = "DELETE FROM films"
-    values = []
-    SqlRunner.run(sql, values)
+  def update()
+    sql = "UPDATE films
+    SET (title,
+      price)
+      = ($1, $2)
+      WHERE id = $3
+      ;"
+      values = [@title, @price, @id]
+      SqlRunner.run(sql,values)
   end
+
+  def Films.all
+      sql = "SELECT * FROM films;"
+      values = []
+      film = SqlRunner.run(sql, values)
+      result = film.map{|film| Films.new(film)}
+      return result
+  end
+
+  def Films.delete_all()
+      sql = "DELETE FROM films"
+      values = []
+      SqlRunner.run(sql, values)
+  end
+
+
+    # def Films.update
+    #
+    # end
 
 end
