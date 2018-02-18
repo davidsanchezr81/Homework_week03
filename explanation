@@ -1,0 +1,45 @@
+MVP
+-- The save method in tickets is complaining and I could not find the reason
+➜  homework_week03 git:(master) ✗ ruby console.rb
+/Users/rocco/codeclan_work/week_03/homework_week03/db/sql_runner.rb:9:in `exec_prepared': ERROR:  insert or update on table "tickets" violates foreign key constraint "tickets_customer_id_fkey" (PG::ForeignKeyViolation)
+DETAIL:  Key (customer_id)=(0) is not present in table "customers".
+	from /Users/rocco/codeclan_work/week_03/homework_week03/db/sql_runner.rb:9:in `run'
+	from /Users/rocco/codeclan_work/week_03/homework_week03/models/ticket.rb:26:in `save'
+	from console.rb:33:in `<main>'
+➜  homework_week03 git:(master) ✗
+
+
+
+
+Basic extensions:
+•	Buying tickets should decrease the funds of the customer by the price
+--SELECT  (funds - price) AS Remaining_Balance from tickets WHERE customers.name = "Fred" AND films.title = 'Armagedon '
+
+•	Check how many tickets were bought by a customer
+
+cinema=# SELECT COUNT(*) from customers;
+ count
+-------
+     2
+(1 row)
+
+cinema=# SELECT COUNT(*) from customers WHERE name = 'Fred';
+ count
+-------
+     1
+(1 row)
+
+
+•	Check how many customers are going to watch a certain film
+
+JOIN TABLE PROBABLY
+
+Advanced extensions:
+•	Create a screenings table that lets us know what time films are showing
+  CREATE A TABLE OF SHOW TIMES AND THEN JOIN IT WITH films and customers TABLES USING THE PK
+
+
+  
+•	Write a method that finds out what is the most popular time (most tickets sold) for a given film
+•	Limit the available tickets for screenings.
+•	Add any other extensions you think would be great to have at a cinema!

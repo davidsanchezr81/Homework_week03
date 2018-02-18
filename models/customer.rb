@@ -1,6 +1,6 @@
-require_relative("../db/sql_runner")
+require_relative('../db/sql_runner')
 
-class Customers
+class Customer
 
   attr_reader :id
   attr_accessor :name, :funds
@@ -10,7 +10,7 @@ class Customers
     @name = options['name']
     @funds  = options['funds'].to_i if options['funds']
   end
-
+  #
   def save()
     sql = "INSERT INTO customers (name, funds)
     VALUES ($1, $2)
@@ -27,15 +27,27 @@ class Customers
     SqlRunner.run(sql,values)
   end
 
-  def Customers.all
+  def Customer.all
     sql = "SELECT * FROM customers"
     values = []
     customer = SqlRunner.run(sql, values)
-    result = customer.map { |customer| Customers.new( customer ) } # esto se cancelan porque usamos el metodo de Location.map_items
+    result = customer.map { |customer| Customer.new( customer ) } # esto se cancelan porque usamos el metodo de Location.map_items
+    return result
+  end
+  #
+  def films() # esto es un instance class porque son los locations que ha visitado una sola persona
+    sql = "SELECT films.*
+    FROM films
+    INNER JOIN tickets
+    ON films.id = tickets.film_id
+    WHERE tickets.customer_id = $1" # esto te dara solo la lista de los locations que esa persona visito sin incluir los nombres de la gente
+    values = [@id]
+    films = SqlRunner.run(sql, values)
+    result = films.map {|film| Film.new(film)}
     return result
   end
 
-  def Customers.delete_all()
+  def Customer.delete_all()
     sql = "DELETE FROM customers"
     values = []
     SqlRunner.run(sql, values)
